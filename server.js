@@ -1,9 +1,13 @@
 import express from "express"
 import connectDB from "./db.js"
 import User from "./models/users.js"
+import cors from "cors"
+import authRouter from "./routers/auth.js"
 
 const app=express()
 const PORT=3000
+
+app.use(cors())
 app.use(express.json())
 
 connectDB()
@@ -23,6 +27,9 @@ app.post("/users",async (req, res) => {
     res.status(500).json({message:error.message})
   }
 })
+
+// mount auth routes
+app.use('/api', authRouter)
 
 app.get("/users",async (req, res) => {
     try {
