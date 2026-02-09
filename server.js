@@ -4,18 +4,20 @@ import User from "./models/users.js"
 
 const app=express()
 const PORT=3000
+app.use(express.json())
 
 connectDB()
-const dummyData={
+
+const dummyData=[{
     name:"john",
     email:"john@example.com",
-    age:30    
-}
+    age:30
+}]
 
 app.post("/users",async (req, res) => {
   try {
-    const{name,email,age}=dummyData 
-    const newUser=await User.create({name,email,age})
+    const { name, email, age } = req.body && Object.keys(req.body).length ? req.body : dummyData[0]
+    const newUser = await User.create({ name, email, age })
     res.status(201).json(newUser)
   } catch (error) {
     res.status(500).json({message:error.message})
@@ -31,4 +33,4 @@ app.get("/users",async (req, res) => {
     }
   })
 
-app.listen(PORT,()=>console.log("port running" ))
+app.listen(PORT,()=>console.log(`port running on ${PORT}`))
