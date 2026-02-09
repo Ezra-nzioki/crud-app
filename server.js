@@ -3,9 +3,12 @@ import connectDB from "./db.js"
 import User from "./models/users.js"
 import cors from "cors"
 import authRouter from "./routers/auth.js"
+import path from "path"
+import { fileURLToPath } from "url"
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app=express()
-const PORT=3000
+const PORT=process.env.PORT || 3000
 
 app.use(cors())
 app.use(express.json())
@@ -39,5 +42,13 @@ app.get("/users",async (req, res) => {
       res.status(500).json({message:error.message})
     }
   })
+
+// Serve React static files
+app.use(express.static(path.join(__dirname, 'client', 'dist')))
+
+// SPA fallback - serve index.html for non-API and non-static routes
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+})
 
 app.listen(PORT,()=>console.log(`port running on ${PORT}`))

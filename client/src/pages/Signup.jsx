@@ -10,7 +10,7 @@ export default function Signup({ onSignedUp }){
   const submit = async e => {
     e.preventDefault()
     try {
-      const res = await axios.post('https://cautious-space-waddle-jxpprrj97xqf4j9-3000.app.github.dev/api/signup', { ...form })
+      const res = await axios.post('/api/signup', { ...form })
       setMsg('Signed up: ' + res.data.user.email)
       // navigate to login
       setTimeout(() => onSignedUp && onSignedUp(), 800)

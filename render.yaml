@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: crud-app
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm run production
+    envVars:
+      - key: MONGODB_URI
+        scope: run
+      - key: JWT_SECRET
+        scope: run
+      - key: NODE_ENV
+        value: production

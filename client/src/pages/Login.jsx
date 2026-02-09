@@ -10,7 +10,7 @@ export default function Login({ onLogin }){
   const submit = async e => {
     e.preventDefault()
     try {
-      const res = await axios.post('https://cautious-space-waddle-jxpprrj97xqf4j9-3000.app.github.dev/api/login', { ...form })
+      const res = await axios.post('/api/login', { ...form })
       setMsg('Logged in: ' + res.data.user.email)
       localStorage.setItem('token', res.data.token)
       // notify parent
